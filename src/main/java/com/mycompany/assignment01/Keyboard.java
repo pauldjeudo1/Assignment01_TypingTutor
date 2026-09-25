@@ -6,6 +6,8 @@ package com.mycompany.assignment01;
 
 import java.util.HashMap;
 import java.util.Map;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -24,11 +26,11 @@ public class Keyboard {
         root = new VBox(4);
         
         //setting up the string arrays to create the row of keys for the keyboard
-        String[] row1 = {"1","2","3","4","5","6","7","8","9","0","Backspace"};
-        String[] row2 = {"Q","W","E","R","T","Y","U","I","O","P","[","]"};
-        String[] row3 = {"A","S","D","F","G","H","J","K","L",";","'","Enter"};
-        String[] row4 = {"Shift","Z","X","C","V","B","N","M",",",".","/"};
-        String[] row5 = {"Space"};
+        String[] row1 = {"1","2","3","4","5","6","7","8","9","0","BACK SPACE"};
+        String[] row2 = {"Q","W","E","R","T","Y","U","I","O","P"};
+        String[] row3 = {"A","S","D","F","G","H","J","K","L",";","'","ENTER"};
+        String[] row4 = {"SHIFT","Z","X","C","V","B","N","M",",",".","/"};
+        String[] row5 = {"SPACE"};
         
         //creating the row of keys
         root.getChildren().add(createRowOfKeys(row1));
@@ -45,17 +47,38 @@ public class Keyboard {
      */
     private HBox createRowOfKeys(String[] keys) {
         HBox row = new HBox(4);
+        
         for (String key : keys) {
             Button btn = new Button(key);
             btn.setMinWidth(35);
-            
-            if (key.equals("Space")) { 
+
+            if (key.equals("SPACE")) { 
                 btn.setMinWidth(250);
-            } else if (key.equals("Shift") || key.equals("Backspace")) {
+            } else if (key.equals("SHIFT") || key.equals("BACK SPACE")) {
                 btn.setMinWidth(60);
             }
             
             keyMap.put(KeyCode.getKeyCode(key), btn);
+            
+            if (key.equals("SPACE")) {
+                keyMap.put(KeyCode.SPACE, btn);
+            } else if (key.equals("BACK SPACE")) {
+                keyMap.put(KeyCode.BACK_SPACE, btn);
+            } else if (key.equals(",")) {
+                keyMap.put(KeyCode.COMMA, btn);
+            } else if (key.equals(".")) {
+                keyMap.put(KeyCode.PERIOD, btn);
+            } else if (key.equals(";")) {
+                keyMap.put(KeyCode.SEMICOLON, btn);
+            } else if (key.equals("SHIFT")) {
+                keyMap.put(KeyCode.SHIFT, btn);
+            } else if (key.equals("'")) {
+                keyMap.put(KeyCode.QUOTE, btn);
+            } else if (key.equals("/")) {
+                keyMap.put(KeyCode.SLASH, btn);
+            } else if (key.equals("ENTER")) {
+                keyMap.put(KeyCode.ENTER, btn);
+            }
             row.getChildren().add(btn);
         }
         

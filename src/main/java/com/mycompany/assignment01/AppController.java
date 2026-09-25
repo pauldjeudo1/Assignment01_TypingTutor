@@ -4,10 +4,19 @@
  */
 package com.mycompany.assignment01;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 /**
  *
- * @author djeud
+ * @author Paul Djeudo
  */
-public class AppController {
+public class AppController implements EventHandler<ActionEvent>{
+    //key pressed, key released
+    
+    @Override
+    public void handle(ActionEvent event) {
+        System.out.println("Button clicked!");
+    }
     
 }
