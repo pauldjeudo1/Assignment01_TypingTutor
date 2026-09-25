@@ -6,6 +6,7 @@ package com.mycompany.assignment01;
 
 import java.util.HashMap;
 import java.util.Map;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -22,12 +23,14 @@ public class Keyboard {
     public Keyboard() {
         root = new VBox(4);
         
+        //setting up the string arrays to create the row of keys for the keyboard
         String[] row1 = {"1","2","3","4","5","6","7","8","9","0","Backspace"};
         String[] row2 = {"Q","W","E","R","T","Y","U","I","O","P","[","]"};
         String[] row3 = {"A","S","D","F","G","H","J","K","L",";","'","Enter"};
         String[] row4 = {"Shift","Z","X","C","V","B","N","M",",",".","/"};
         String[] row5 = {"Space"};
         
+        //creating the row of keys
         root.getChildren().add(createRowOfKeys(row1));
         root.getChildren().add(createRowOfKeys(row2));
         root.getChildren().add(createRowOfKeys(row3));
@@ -35,6 +38,11 @@ public class Keyboard {
         root.getChildren().add(createRowOfKeys(row5));
     }
     
+    /**
+     * Receives a string array and creates a row of buttons 
+     * @param keys the string array to be processed
+     * @return a row of buttons
+     */
     private HBox createRowOfKeys(String[] keys) {
         HBox row = new HBox(4);
         for (String key : keys) {
@@ -50,6 +58,8 @@ public class Keyboard {
             keyMap.put(KeyCode.getKeyCode(key), btn);
             row.getChildren().add(btn);
         }
+        
+        row.setAlignment(Pos.CENTER);
         return row;
     }
 
