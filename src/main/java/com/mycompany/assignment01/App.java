@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
@@ -38,6 +39,10 @@ public class App extends Application {
         Label correctLabel = new Label("");
         Label incorrectLabel = new Label("");
         Button nextButton = new Button("Next");
+        Button resetButton = new Button("Reset");
+        HBox nextAndReset = new HBox(nextButton, resetButton);
+        nextAndReset.setAlignment(Pos.CENTER);
+        nextAndReset.setPadding(new Insets(10));
         
         //creating array of sample texts
         String[] sampleTexts = {
@@ -53,7 +58,7 @@ public class App extends Application {
         textToType.setText(sampleTexts[currentIdx]); 
         
         VBox topBox = new VBox(5, counterLabel, tf, textToType,
-        nextButton);
+        nextAndReset);
         topBox.setAlignment(Pos.CENTER);
         root.setTop(topBox);
         VBox bottomBox = new VBox(5, notHandled, correctLabel,
@@ -84,12 +89,22 @@ public class App extends Application {
             notHandled.setText("");
         });
         
-
+        // 
         nextButton.setOnAction(e -> {
             currentIdx = (currentIdx + 1) % sampleTexts.length; // goes back to 0 after last
             textToType.setText(sampleTexts[currentIdx]);
             tf.clear();
             counterLabel.setText((currentIdx + 1) + " of " + sampleTexts.length);
+        });
+        
+        resetButton.setOnAction(e -> {
+            currentIdx = 0;
+            textToType.setText(sampleTexts[currentIdx]);
+            tf.clear();
+            counterLabel.setText((currentIdx + 1) + " of " + sampleTexts.length);
+            notHandled.setText("");
+            correctLabel.setText("");
+            incorrectLabel.setText("");
         });
 
         stage.setTitle("Typing Tutor");
