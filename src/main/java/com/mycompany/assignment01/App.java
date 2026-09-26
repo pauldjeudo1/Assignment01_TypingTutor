@@ -19,20 +19,25 @@ import javafx.scene.layout.VBox;
  * JavaFX App
  */
 public class App extends Application {
+    private int currentIdx = 0;
+
 
     @Override
     public void start(Stage stage) {
         //creating controls and layout
         BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, 640, 480);
         root.setPadding(new Insets(10));
         Keyboard keyboard = new Keyboard();
         TextField tf = new TextField();
         tf.setPrefWidth(400);
+        Label counterLabel = new Label("1 of  6");
         Label textToType = new Label("");
         Label notHandled = new Label("");
         notHandled.setStyle("-fx-text-fill: red");
         Label correctLabel = new Label("");
         Label incorrectLabel = new Label("");
+        Button nextButton = new Button("Next");
         
         //creating array of sample texts
         String[] sampleTexts = {
@@ -43,19 +48,19 @@ public class App extends Application {
             "Sympathizing would fix Quaker objectives.",
             "A large fawn jumped quickly over white zinc boxes."
         };
-
-        VBox topBox = new VBox(5, textToType, tf);
+        
+        //presenting first sample text, currentIdx = 0
+        textToType.setText(sampleTexts[currentIdx]); 
+        
+        VBox topBox = new VBox(5, counterLabel, tf, textToType,
+        nextButton);
         topBox.setAlignment(Pos.CENTER);
         root.setTop(topBox);
         VBox bottomBox = new VBox(5, notHandled, correctLabel,
         incorrectLabel);
         root.setBottom(bottomBox);
-
-        
         root.setCenter(keyboard.getView());
-
-        Scene scene = new Scene(root, 640, 480);
-
+        
         scene.setOnKeyPressed(e -> {
             StringBuilder typedText = new StringBuilder();
             
@@ -77,6 +82,14 @@ public class App extends Application {
                 btn.setStyle("");
             }
             notHandled.setText("");
+        });
+        
+
+        nextButton.setOnAction(e -> {
+            currentIdx = (currentIdx + 1) % sampleTexts.length; // goes back to 0 after last
+            textToType.setText(sampleTexts[currentIdx]);
+            tf.clear();
+            counterLabel.setText((currentIdx + 1) + " of " + sampleTexts.length);
         });
 
         stage.setTitle("Typing Tutor");
