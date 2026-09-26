@@ -11,12 +11,6 @@ import javafx.event.EventHandler;
  *
  * @author Paul Djeudo
  */
-public class AppController implements EventHandler<ActionEvent>{
-    //key pressed, key released
-    
-    @Override
-    public void handle(ActionEvent event) {
-        System.out.println("Button clicked!");
-    }
-    
+public class AppController {
+   
 }

@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 public class App extends Application {
     private int currentIdx = 0;
     private StringBuilder typedText = new StringBuilder();
+    private boolean shiftPressed = false;
 
     @Override
     public void start(Stage stage) {
@@ -66,18 +67,32 @@ public class App extends Application {
         root.setBottom(bottomBox);
         root.setCenter(keyboard.getView());
         
-        //TODO: fix handler
+        //Event handler for pressed keys
         scene.setOnKeyPressed(e -> {
             Button btn = keyboard.getKeyMap().get(e.getCode());
             if (btn != null) {
                 btn.setStyle("-fx-background-color: blue");
                 
+                // if user presses BACKSPACE, the previous character gets deleted
                 if (e.getCode() == KeyCode.BACK_SPACE) {
                     if (typedText.length() > 0) {
                         typedText.deleteCharAt(typedText.length() - 1);
                     }
-                } else {
-                    String keyText = e.getCode().getName().toLowerCase();
+                } else if (e.getCode() == KeyCode.SHIFT) {
+                    shiftPressed = true;
+                } else {                
+                    String keyText;
+                    if (e.getCode() == KeyCode.SPACE) {
+                        keyText = " ";
+                    } else if (e.getCode() == KeyCode.COMMA) {
+                        keyText = ",";
+                    } else if (e.getCode() == KeyCode.PERIOD) {
+                        keyText = ".";
+                    } else {
+                        keyText = e.getCode().getName().toLowerCase();
+                        keyText = shiftPressed ? keyText.toUpperCase() : 
+                                keyText.toLowerCase();
+                    }
                     typedText.append(keyText);
                 }
                 
@@ -89,14 +104,19 @@ public class App extends Application {
             }
         });
 
+        //Event handler for released keys
         scene.setOnKeyReleased(e -> {
             Button btn = keyboard.getKeyMap().get(e.getCode());
             if (btn != null) {
                 btn.setStyle("");
+                if (e.getCode() == KeyCode.SHIFT) {
+                    shiftPressed = false;
+                }
             }
             notHandled.setText("");
         });
         
+        //Event handler for "Next" button
         nextButton.setOnAction(e -> {
             currentIdx = (currentIdx + 1) % sampleTexts.length; // goes back to 0 after last
             textToType.setText(sampleTexts[currentIdx]);
@@ -104,6 +124,7 @@ public class App extends Application {
             counterLabel.setText((currentIdx + 1) + " of " + sampleTexts.length);
         });
         
+        ////Event handler for "Reset" button
         resetButton.setOnAction(e -> {
             currentIdx = 0;
             textToType.setText(sampleTexts[currentIdx]);
