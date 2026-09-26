@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
  */
 public class App extends Application {
     private int currentIdx = 0;
-
+    private StringBuilder typedText = new StringBuilder();
 
     @Override
     public void start(Stage stage) {
@@ -66,16 +66,24 @@ public class App extends Application {
         root.setBottom(bottomBox);
         root.setCenter(keyboard.getView());
         
+        //TODO: fix handler
         scene.setOnKeyPressed(e -> {
-            StringBuilder typedText = new StringBuilder();
-            
             Button btn = keyboard.getKeyMap().get(e.getCode());
             if (btn != null) {
                 btn.setStyle("-fx-background-color: blue");
-                // Append the character to the StringBuilder and update the TextField
-                String keyText = e.getCode().getName().toLowerCase();
-                typedText.append(keyText);
+                
+                if (e.getCode() == KeyCode.BACK_SPACE) {
+                    if (typedText.length() > 0) {
+                        typedText.deleteCharAt(typedText.length() - 1);
+                    }
+                } else {
+                    String keyText = e.getCode().getName().toLowerCase();
+                    typedText.append(keyText);
+                }
+                
                 tf.setText(typedText.toString());
+                trackKeystrokes(typedText.toString(), sampleTexts[currentIdx], 
+                        correctLabel, incorrectLabel);
             } else {
                 notHandled.setText("Not handled");
             }
@@ -89,7 +97,6 @@ public class App extends Application {
             notHandled.setText("");
         });
         
-        // 
         nextButton.setOnAction(e -> {
             currentIdx = (currentIdx + 1) % sampleTexts.length; // goes back to 0 after last
             textToType.setText(sampleTexts[currentIdx]);
@@ -111,6 +118,22 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         root.requestFocus();
+    }
+    
+    private void trackKeystrokes(String typed, String target, Label correctLabel, Label incorrectLabel) {
+        int correct = 0;
+        int incorrect = 0;
+
+        for (int i = 0; i < typed.length(); i++) {
+            if (i < target.length() && typed.charAt(i) == target.charAt(i)) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        }
+
+        correctLabel.setText("Correct: " + correct);
+        incorrectLabel.setText("Incorrect: " + incorrect);
     }
 
     public static void main(String[] args) {

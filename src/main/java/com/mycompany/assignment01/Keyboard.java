@@ -27,9 +27,9 @@ public class Keyboard {
         
         //setting up the string arrays to create the row of keys for the keyboard
         String[] row1 = {"1","2","3","4","5","6","7","8","9","0","BACK SPACE"};
-        String[] row2 = {"Q","W","E","R","T","Y","U","I","O","P","[","]"};
-        String[] row3 = {"A","S","D","F","G","H","J","K","L",";","'","ENTER"};
-        String[] row4 = {"SHIFT","Z","X","C","V","B","N","M",",",".","/"};
+        String[] row2 = {"Q","W","E","R","T","Y","U","I","O","P"};
+        String[] row3 = {"A","S","D","F","G","H","J","K","L"};
+        String[] row4 = {"SHIFT","Z","X","C","V","B","N","M",",","."};
         String[] row5 = {"SPACE"};
         
         //creating the row of keys
@@ -41,7 +41,8 @@ public class Keyboard {
     }
     
     /**
-     * Receives a string array and creates a row of buttons 
+     * Receives a string array and creates a row of buttons while mapping them 
+     * alongside their respective key code.
      * @param keys the string array to be processed
      * @return a row of buttons
      */
@@ -73,26 +74,8 @@ public class Keyboard {
                 case ".":
                     keyMap.put(KeyCode.PERIOD, btn);
                     break;
-                case ";":
-                    keyMap.put(KeyCode.SEMICOLON, btn);
-                    break;
                 case "SHIFT":
                     keyMap.put(KeyCode.SHIFT, btn);
-                    break;
-                case "'":
-                    keyMap.put(KeyCode.QUOTE, btn);
-                    break;
-                case "/":
-                    keyMap.put(KeyCode.SLASH, btn);
-                    break;
-                case "ENTER":
-                    keyMap.put(KeyCode.ENTER, btn);
-                    break;
-                case "[":
-                    keyMap.put(KeyCode.OPEN_BRACKET, btn);
-                    break;
-                case "]":
-                    keyMap.put(KeyCode.CLOSE_BRACKET, btn);
                     break;    
             }
             
